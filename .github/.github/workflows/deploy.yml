@@ -1,69 +1,35 @@
-# ═══════════════════════════════════════════════════════════════════
-# deploy.yml — Pipeline de despliegue a GitHub Pages
-#
-# FLUJO:
-#   1. Se activa al hacer push a la rama main
-#   2. Lee las credenciales desde los Secrets del repositorio
-#   3. Genera js/config.js con esas credenciales (nunca se commitea)
-#   4. Despliega el sitio completo en GitHub Pages
-#
-# SECRETS REQUERIDOS (configurar en: Settings → Secrets → Actions):
-#   • EMAILJS_PUBLIC_KEY
-#   • EMAILJS_SERVICE_ID
-#   • EMAILJS_TEMPLATE_ID
-# ═══════════════════════════════════════════════════════════════════
-
 name: Deploy Portfolio to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 
-# Permisos necesarios para desplegar en GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Evita despliegues paralelos si hay varios pushes seguidos
-concurrency:
-  group: github-pages
-  cancel-in-progress: true
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
-      - name: Checkout del repositorio
+      - name: Checkout
         uses: actions/checkout@v4
 
-      # ★ PASO CLAVE: genera js/config.js desde los Secrets.
-      # Las variables de entorno nunca se imprimen en los logs de Actions.
-      - name: Generar js/config.js desde los Secrets
-        env:
-          EMAILJS_PUBLIC_KEY:  ${{ secrets.EMAILJS_PUBLIC_KEY }}
-          EMAILJS_SERVICE_ID:  ${{ secrets.EMAILJS_SERVICE_ID }}
-          EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
+      - name: Create config.js from Secrets
         run: |
-          cat > js/config.js << JSEOF
-          // Generado automáticamente por GitHub Actions — no editar ni committear.
-          const EMAILJS_PUBLIC_KEY  = "${EMAILJS_PUBLIC_KEY}";
-          const EMAILJS_SERVICE_ID  = "${EMAILJS_SERVICE_ID}";
-          const EMAILJS_TEMPLATE_ID = "${EMAILJS_TEMPLATE_ID}";
-          JSEOF
+          echo "const EMAILJS_PUBLIC_KEY = '${{ secrets.EMAILJS_PUBLIC_KEY }}';" > js/config.js
+          echo "const EMAILJS_SERVICE_ID = '${{ secrets.EMAILJS_SERVICE_ID }}';" >> js/config.js
+          echo "const EMAILJS_TEMPLATE_ID = '${{ secrets.EMAILJS_TEMPLATE_ID }}';" >> js/config.js
 
-      - name: Configurar GitHub Pages
-        uses: actions/configure-pages@v5
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
 
-      - name: Subir sitio como artefacto de Pages
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'   # Sube todo el directorio (config.js ya fue generado arriba)
+          path: '.'
 
-      - name: Desplegar en GitHub Pages
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
