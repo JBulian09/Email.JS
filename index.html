@@ -1,0 +1,89 @@
+<<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio | Julián</title>
+    <link rel="stylesheet" href="css/style.css">
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+
+    <header class="hero">
+        <img src="https://tse4.mm.bing.net/th/id/OIP.cke-iWtq-AKZ13bBv_z3lwHaHa?pid=Api&P=0&h=180" alt="Foto de Julián" class="profile-img">
+        <h1>Hola, soy <span class="highlight">Julián</span></h1>
+        <p class="tagline">Desarrollador en formación | Amante del Café | Solucionador de Problemas</p>
+    </header>
+
+    <section id="about">
+        <h2>Sobre mí</h2>
+        <p>
+            Estudiante de tecnología con una obsesión saludable por el código limpio y los videojuegos de mundo abierto. 
+            Me paso el día peleando con puntos y comas, y el resto del tiempo intentando explicarle a mi familia que 
+            no puedo arreglar la impresora solo porque sé programar.
+        </p>
+        
+        <h3>Mis Skills</h3>
+        <div class="skills-container">
+            <span class="badge">JavaScript</span>
+            <span class="badge">HTML5/CSS3</span>
+            <span class="badge">Git & GitHub</span>
+            <span class="badge">Python (Básico)</span>
+            <span class="badge">Comer Pizza</span>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>Mis Proyectos</h2>
+        
+        <div class="project-card">
+            <h3>🚀 Sistema de Notificaciones</h3>
+            <p>Un sistema de contacto dinámico que envía correos reales usando la API de EmailJS. ¡Es el que estás viendo ahora!</p>
+            <small>Tecnologías: JS, HTML, EmailJS API</small>
+        </div>
+
+        <div class="project-card">
+            <h3>🎮 Adivina el Número</h3>
+            <p>Un juego sencillo en consola donde la computadora intenta ganarte. Spoiler: casi siempre gana la máquina.</p>
+            <small>Tecnologías: Python</small>
+        </div>
+    </section>
+
+    <section id="contacto">
+        <h2>¿Hablamos?</h2>
+        <p>Si tienes un proyecto interesante o quieres debatir por qué el modo oscuro es mejor que el claro, escríbeme:</p>
+        
+        <form id="contact-form">
+            <div class="form-group">
+                <label for="from_name">Tu Nombre:</label>
+                <input type="text" id="from_name" name="from_name" placeholder="Ej. Tony Stark" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="from_email">Tu Email:</label>
+                <input type="email" id="from_email" name="from_email" placeholder="ejemplo@correo.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="subject">Asunto:</label>
+                <input type="text" id="subject" name="subject" placeholder="¿De qué trata el mensaje?" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Mensaje:</label>
+                <textarea id="message" name="message" rows="5" placeholder="Escribe aquí tu mensaje..." required></textarea>
+            </div>
+            
+            <button type="submit" id="submit-btn">
+                <span id="btn-text">Enviar mensaje</span>
+                <span id="btn-spinner" class="hidden">↻ Enviando...</span>
+            </button>
+        </form>
+        <p id="form-status" class="hidden"></p>
+    </section>
+
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
